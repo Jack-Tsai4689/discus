@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Discus;
+use App\Discus;
 
 class DiscusController extends Controller
 {
@@ -14,7 +14,8 @@ class DiscusController extends Controller
      */
     public function index()
     {
-        $data = Discus::all();
+        $data = Discus::where('parent_id', 0)->get()->all();
+        return view('main', ['list' => $data]);
     }
 
     /**
@@ -33,9 +34,17 @@ class DiscusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $title = ($req->has('title')) ? trim($req->input('title')):'';
+        $content = ($req->has('content')) ? trim($req->input('content')):'';
+        $pid = ($req->has('pid')) ? trim($req->input('pid')):0;
+        $pid = (int)$pid;
+        Discus::create([
+            'title' => $title,
+            'content' => $content,
+            'parent_id' => $pid
+        ]);
     }
 
     /**

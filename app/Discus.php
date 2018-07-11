@@ -8,5 +8,5 @@ class Discus extends Model
 {
     public $primaryKey = 'id';
     public $table = 'discuses';
-    public $fillable = ['title', 'content'];
+    public $fillable = ['title', 'content', 'parent_id'];
 }
